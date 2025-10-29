@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:meaw_meaw@localhost:5433/bookit"
+}
+
+model Experience {
+  id          Int       @id @default(autoincrement())
+  title       String
+  slug        String    @unique
+  description String?
+  priceCents  Int
+  imageUrl    String?
+  location    String?
+  createdAt   DateTime  @default(now())
+  slots       Slot[]
+  bookings    Booking[]
+}
+
+model Slot {
+  id           Int        @id @default(autoincrement())
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  experienceId Int
+  slotDate     DateTime
+  slotTime     String
+  capacity     Int        @default(10)
+  booked       Int        @default(0)
+  bookings     Booking[]
+
+  @@unique([experienceId, slotDate, slotTime])
+}
+
+model Booking {
+  id            Int        @id @default(autoincrement())
+  experience    Experience @relation(fields: [experienceId], references: [id])
+  experienceId  Int
+  slot          Slot       @relation(fields: [slotId], references: [id])
+  slotId        Int
+  fullName      String
+  email         String
+  qty           Int
+  subtotalCents Int
+  taxesCents    Int
+  totalCents    Int
+  promoCode     String?
+  createdAt     DateTime   @default(now())
+}
+
+model Promo {
+  code   String  @id
+  type   String // 'percent' | 'flat'
+  value  Int // percent (e.g. 10) or cents (e.g. 10000 cents = ₹100)
+  active Boolean @default(true)
+}
