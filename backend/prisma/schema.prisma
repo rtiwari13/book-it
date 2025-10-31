@@ -6,13 +6,13 @@
 
 generator client {
   provider = "prisma-client-js"
+//  output   = "./client"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:meaw_meaw@localhost:5433/bookit"
+  url      = env("DATABASE_URL")
 }
-
 
 model Experience {
   id          Int      @id @default(autoincrement())
@@ -24,7 +24,6 @@ model Experience {
   location    String?
   createdAt   DateTime @default(now())
   slots       Slot[]
-  bookings    Booking[]
 }
 
 model Slot {
@@ -33,16 +32,13 @@ model Slot {
   experienceId Int
   slotDate     DateTime
   slotTime     String
-  capacity     Int      @default(10)
-  booked       Int      @default(0)
+  capacity     Int      @default(20)
   bookings     Booking[]
   @@unique([experienceId, slotDate, slotTime])
 }
 
 model Booking {
   id           Int      @id @default(autoincrement())
-  experience   Experience @relation(fields: [experienceId], references: [id])
-  experienceId Int
   slot         Slot       @relation(fields: [slotId], references: [id])
   slotId       Int
   fullName     String
@@ -52,12 +48,13 @@ model Booking {
   taxesCents   Int
   totalCents   Int
   promoCode    String?
+  refId        String?
   createdAt    DateTime  @default(now())
 }
 
 model Promo {
   code   String  @id
-  type   String  // 'percent' | 'flat'
-  value  Int     // percent (e.g. 10) or cents (e.g. 10000 cents = ₹100)
+  type   String  
+  value  Int     
   active Boolean @default(true)
 }

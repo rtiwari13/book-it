@@ -1135,12 +1135,10 @@ export namespace Prisma {
 
   export type ExperienceCountOutputType = {
     slots: number
-    bookings: number
   }
 
   export type ExperienceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     slots?: boolean | ExperienceCountOutputTypeCountSlotsArgs
-    bookings?: boolean | ExperienceCountOutputTypeCountBookingsArgs
   }
 
   // Custom InputTypes
@@ -1159,13 +1157,6 @@ export namespace Prisma {
    */
   export type ExperienceCountOutputTypeCountSlotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SlotWhereInput
-  }
-
-  /**
-   * ExperienceCountOutputType without action
-   */
-  export type ExperienceCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BookingWhereInput
   }
 
 
@@ -1431,7 +1422,6 @@ export namespace Prisma {
     location?: boolean
     createdAt?: boolean
     slots?: boolean | Experience$slotsArgs<ExtArgs>
-    bookings?: boolean | Experience$bookingsArgs<ExtArgs>
     _count?: boolean | ExperienceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["experience"]>
 
@@ -1471,7 +1461,6 @@ export namespace Prisma {
   export type ExperienceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "priceCents" | "imageUrl" | "location" | "createdAt", ExtArgs["result"]["experience"]>
   export type ExperienceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     slots?: boolean | Experience$slotsArgs<ExtArgs>
-    bookings?: boolean | Experience$bookingsArgs<ExtArgs>
     _count?: boolean | ExperienceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ExperienceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1481,7 +1470,6 @@ export namespace Prisma {
     name: "Experience"
     objects: {
       slots: Prisma.$SlotPayload<ExtArgs>[]
-      bookings: Prisma.$BookingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1887,7 +1875,6 @@ export namespace Prisma {
   export interface Prisma__ExperienceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     slots<T extends Experience$slotsArgs<ExtArgs> = {}>(args?: Subset<T, Experience$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    bookings<T extends Experience$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Experience$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2337,30 +2324,6 @@ export namespace Prisma {
   }
 
   /**
-   * Experience.bookings
-   */
-  export type Experience$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Booking
-     */
-    select?: BookingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Booking
-     */
-    omit?: BookingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BookingInclude<ExtArgs> | null
-    where?: BookingWhereInput
-    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
-    cursor?: BookingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
-  }
-
-  /**
    * Experience without action
    */
   export type ExperienceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2395,14 +2358,12 @@ export namespace Prisma {
     id: number | null
     experienceId: number | null
     capacity: number | null
-    booked: number | null
   }
 
   export type SlotSumAggregateOutputType = {
     id: number | null
     experienceId: number | null
     capacity: number | null
-    booked: number | null
   }
 
   export type SlotMinAggregateOutputType = {
@@ -2411,7 +2372,6 @@ export namespace Prisma {
     slotDate: Date | null
     slotTime: string | null
     capacity: number | null
-    booked: number | null
   }
 
   export type SlotMaxAggregateOutputType = {
@@ -2420,7 +2380,6 @@ export namespace Prisma {
     slotDate: Date | null
     slotTime: string | null
     capacity: number | null
-    booked: number | null
   }
 
   export type SlotCountAggregateOutputType = {
@@ -2429,7 +2388,6 @@ export namespace Prisma {
     slotDate: number
     slotTime: number
     capacity: number
-    booked: number
     _all: number
   }
 
@@ -2438,14 +2396,12 @@ export namespace Prisma {
     id?: true
     experienceId?: true
     capacity?: true
-    booked?: true
   }
 
   export type SlotSumAggregateInputType = {
     id?: true
     experienceId?: true
     capacity?: true
-    booked?: true
   }
 
   export type SlotMinAggregateInputType = {
@@ -2454,7 +2410,6 @@ export namespace Prisma {
     slotDate?: true
     slotTime?: true
     capacity?: true
-    booked?: true
   }
 
   export type SlotMaxAggregateInputType = {
@@ -2463,7 +2418,6 @@ export namespace Prisma {
     slotDate?: true
     slotTime?: true
     capacity?: true
-    booked?: true
   }
 
   export type SlotCountAggregateInputType = {
@@ -2472,7 +2426,6 @@ export namespace Prisma {
     slotDate?: true
     slotTime?: true
     capacity?: true
-    booked?: true
     _all?: true
   }
 
@@ -2568,7 +2521,6 @@ export namespace Prisma {
     slotDate: Date
     slotTime: string
     capacity: number
-    booked: number
     _count: SlotCountAggregateOutputType | null
     _avg: SlotAvgAggregateOutputType | null
     _sum: SlotSumAggregateOutputType | null
@@ -2596,7 +2548,6 @@ export namespace Prisma {
     slotDate?: boolean
     slotTime?: boolean
     capacity?: boolean
-    booked?: boolean
     experience?: boolean | ExperienceDefaultArgs<ExtArgs>
     bookings?: boolean | Slot$bookingsArgs<ExtArgs>
     _count?: boolean | SlotCountOutputTypeDefaultArgs<ExtArgs>
@@ -2608,7 +2559,6 @@ export namespace Prisma {
     slotDate?: boolean
     slotTime?: boolean
     capacity?: boolean
-    booked?: boolean
     experience?: boolean | ExperienceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["slot"]>
 
@@ -2618,7 +2568,6 @@ export namespace Prisma {
     slotDate?: boolean
     slotTime?: boolean
     capacity?: boolean
-    booked?: boolean
     experience?: boolean | ExperienceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["slot"]>
 
@@ -2628,10 +2577,9 @@ export namespace Prisma {
     slotDate?: boolean
     slotTime?: boolean
     capacity?: boolean
-    booked?: boolean
   }
 
-  export type SlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experienceId" | "slotDate" | "slotTime" | "capacity" | "booked", ExtArgs["result"]["slot"]>
+  export type SlotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experienceId" | "slotDate" | "slotTime" | "capacity", ExtArgs["result"]["slot"]>
   export type SlotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     experience?: boolean | ExperienceDefaultArgs<ExtArgs>
     bookings?: boolean | Slot$bookingsArgs<ExtArgs>
@@ -2656,7 +2604,6 @@ export namespace Prisma {
       slotDate: Date
       slotTime: string
       capacity: number
-      booked: number
     }, ExtArgs["result"]["slot"]>
     composites: {}
   }
@@ -3087,7 +3034,6 @@ export namespace Prisma {
     readonly slotDate: FieldRef<"Slot", 'DateTime'>
     readonly slotTime: FieldRef<"Slot", 'String'>
     readonly capacity: FieldRef<"Slot", 'Int'>
-    readonly booked: FieldRef<"Slot", 'Int'>
   }
     
 
@@ -3540,7 +3486,6 @@ export namespace Prisma {
 
   export type BookingAvgAggregateOutputType = {
     id: number | null
-    experienceId: number | null
     slotId: number | null
     qty: number | null
     subtotalCents: number | null
@@ -3550,7 +3495,6 @@ export namespace Prisma {
 
   export type BookingSumAggregateOutputType = {
     id: number | null
-    experienceId: number | null
     slotId: number | null
     qty: number | null
     subtotalCents: number | null
@@ -3560,7 +3504,6 @@ export namespace Prisma {
 
   export type BookingMinAggregateOutputType = {
     id: number | null
-    experienceId: number | null
     slotId: number | null
     fullName: string | null
     email: string | null
@@ -3569,12 +3512,12 @@ export namespace Prisma {
     taxesCents: number | null
     totalCents: number | null
     promoCode: string | null
+    refId: string | null
     createdAt: Date | null
   }
 
   export type BookingMaxAggregateOutputType = {
     id: number | null
-    experienceId: number | null
     slotId: number | null
     fullName: string | null
     email: string | null
@@ -3583,12 +3526,12 @@ export namespace Prisma {
     taxesCents: number | null
     totalCents: number | null
     promoCode: string | null
+    refId: string | null
     createdAt: Date | null
   }
 
   export type BookingCountAggregateOutputType = {
     id: number
-    experienceId: number
     slotId: number
     fullName: number
     email: number
@@ -3597,6 +3540,7 @@ export namespace Prisma {
     taxesCents: number
     totalCents: number
     promoCode: number
+    refId: number
     createdAt: number
     _all: number
   }
@@ -3604,7 +3548,6 @@ export namespace Prisma {
 
   export type BookingAvgAggregateInputType = {
     id?: true
-    experienceId?: true
     slotId?: true
     qty?: true
     subtotalCents?: true
@@ -3614,7 +3557,6 @@ export namespace Prisma {
 
   export type BookingSumAggregateInputType = {
     id?: true
-    experienceId?: true
     slotId?: true
     qty?: true
     subtotalCents?: true
@@ -3624,7 +3566,6 @@ export namespace Prisma {
 
   export type BookingMinAggregateInputType = {
     id?: true
-    experienceId?: true
     slotId?: true
     fullName?: true
     email?: true
@@ -3633,12 +3574,12 @@ export namespace Prisma {
     taxesCents?: true
     totalCents?: true
     promoCode?: true
+    refId?: true
     createdAt?: true
   }
 
   export type BookingMaxAggregateInputType = {
     id?: true
-    experienceId?: true
     slotId?: true
     fullName?: true
     email?: true
@@ -3647,12 +3588,12 @@ export namespace Prisma {
     taxesCents?: true
     totalCents?: true
     promoCode?: true
+    refId?: true
     createdAt?: true
   }
 
   export type BookingCountAggregateInputType = {
     id?: true
-    experienceId?: true
     slotId?: true
     fullName?: true
     email?: true
@@ -3661,6 +3602,7 @@ export namespace Prisma {
     taxesCents?: true
     totalCents?: true
     promoCode?: true
+    refId?: true
     createdAt?: true
     _all?: true
   }
@@ -3753,7 +3695,6 @@ export namespace Prisma {
 
   export type BookingGroupByOutputType = {
     id: number
-    experienceId: number
     slotId: number
     fullName: string
     email: string
@@ -3762,6 +3703,7 @@ export namespace Prisma {
     taxesCents: number
     totalCents: number
     promoCode: string | null
+    refId: string | null
     createdAt: Date
     _count: BookingCountAggregateOutputType | null
     _avg: BookingAvgAggregateOutputType | null
@@ -3786,7 +3728,6 @@ export namespace Prisma {
 
   export type BookingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    experienceId?: boolean
     slotId?: boolean
     fullName?: boolean
     email?: boolean
@@ -3795,14 +3736,13 @@ export namespace Prisma {
     taxesCents?: boolean
     totalCents?: boolean
     promoCode?: boolean
+    refId?: boolean
     createdAt?: boolean
-    experience?: boolean | ExperienceDefaultArgs<ExtArgs>
     slot?: boolean | SlotDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    experienceId?: boolean
     slotId?: boolean
     fullName?: boolean
     email?: boolean
@@ -3811,14 +3751,13 @@ export namespace Prisma {
     taxesCents?: boolean
     totalCents?: boolean
     promoCode?: boolean
+    refId?: boolean
     createdAt?: boolean
-    experience?: boolean | ExperienceDefaultArgs<ExtArgs>
     slot?: boolean | SlotDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    experienceId?: boolean
     slotId?: boolean
     fullName?: boolean
     email?: boolean
@@ -3827,14 +3766,13 @@ export namespace Prisma {
     taxesCents?: boolean
     totalCents?: boolean
     promoCode?: boolean
+    refId?: boolean
     createdAt?: boolean
-    experience?: boolean | ExperienceDefaultArgs<ExtArgs>
     slot?: boolean | SlotDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectScalar = {
     id?: boolean
-    experienceId?: boolean
     slotId?: boolean
     fullName?: boolean
     email?: boolean
@@ -3843,32 +3781,28 @@ export namespace Prisma {
     taxesCents?: boolean
     totalCents?: boolean
     promoCode?: boolean
+    refId?: boolean
     createdAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experienceId" | "slotId" | "fullName" | "email" | "qty" | "subtotalCents" | "taxesCents" | "totalCents" | "promoCode" | "createdAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slotId" | "fullName" | "email" | "qty" | "subtotalCents" | "taxesCents" | "totalCents" | "promoCode" | "refId" | "createdAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    experience?: boolean | ExperienceDefaultArgs<ExtArgs>
     slot?: boolean | SlotDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    experience?: boolean | ExperienceDefaultArgs<ExtArgs>
     slot?: boolean | SlotDefaultArgs<ExtArgs>
   }
   export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    experience?: boolean | ExperienceDefaultArgs<ExtArgs>
     slot?: boolean | SlotDefaultArgs<ExtArgs>
   }
 
   export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Booking"
     objects: {
-      experience: Prisma.$ExperiencePayload<ExtArgs>
       slot: Prisma.$SlotPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      experienceId: number
       slotId: number
       fullName: string
       email: string
@@ -3877,6 +3811,7 @@ export namespace Prisma {
       taxesCents: number
       totalCents: number
       promoCode: string | null
+      refId: string | null
       createdAt: Date
     }, ExtArgs["result"]["booking"]>
     composites: {}
@@ -4272,7 +4207,6 @@ export namespace Prisma {
    */
   export interface Prisma__BookingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    experience<T extends ExperienceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ExperienceDefaultArgs<ExtArgs>>): Prisma__ExperienceClient<$Result.GetResult<Prisma.$ExperiencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     slot<T extends SlotDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SlotDefaultArgs<ExtArgs>>): Prisma__SlotClient<$Result.GetResult<Prisma.$SlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4304,7 +4238,6 @@ export namespace Prisma {
    */
   interface BookingFieldRefs {
     readonly id: FieldRef<"Booking", 'Int'>
-    readonly experienceId: FieldRef<"Booking", 'Int'>
     readonly slotId: FieldRef<"Booking", 'Int'>
     readonly fullName: FieldRef<"Booking", 'String'>
     readonly email: FieldRef<"Booking", 'String'>
@@ -4313,6 +4246,7 @@ export namespace Prisma {
     readonly taxesCents: FieldRef<"Booking", 'Int'>
     readonly totalCents: FieldRef<"Booking", 'Int'>
     readonly promoCode: FieldRef<"Booking", 'String'>
+    readonly refId: FieldRef<"Booking", 'String'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
   }
     
@@ -5777,8 +5711,7 @@ export namespace Prisma {
     experienceId: 'experienceId',
     slotDate: 'slotDate',
     slotTime: 'slotTime',
-    capacity: 'capacity',
-    booked: 'booked'
+    capacity: 'capacity'
   };
 
   export type SlotScalarFieldEnum = (typeof SlotScalarFieldEnum)[keyof typeof SlotScalarFieldEnum]
@@ -5786,7 +5719,6 @@ export namespace Prisma {
 
   export const BookingScalarFieldEnum: {
     id: 'id',
-    experienceId: 'experienceId',
     slotId: 'slotId',
     fullName: 'fullName',
     email: 'email',
@@ -5795,6 +5727,7 @@ export namespace Prisma {
     taxesCents: 'taxesCents',
     totalCents: 'totalCents',
     promoCode: 'promoCode',
+    refId: 'refId',
     createdAt: 'createdAt'
   };
 
@@ -5919,7 +5852,6 @@ export namespace Prisma {
     location?: StringNullableFilter<"Experience"> | string | null
     createdAt?: DateTimeFilter<"Experience"> | Date | string
     slots?: SlotListRelationFilter
-    bookings?: BookingListRelationFilter
   }
 
   export type ExperienceOrderByWithRelationInput = {
@@ -5932,7 +5864,6 @@ export namespace Prisma {
     location?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     slots?: SlotOrderByRelationAggregateInput
-    bookings?: BookingOrderByRelationAggregateInput
   }
 
   export type ExperienceWhereUniqueInput = Prisma.AtLeast<{
@@ -5948,7 +5879,6 @@ export namespace Prisma {
     location?: StringNullableFilter<"Experience"> | string | null
     createdAt?: DateTimeFilter<"Experience"> | Date | string
     slots?: SlotListRelationFilter
-    bookings?: BookingListRelationFilter
   }, "id" | "slug">
 
   export type ExperienceOrderByWithAggregationInput = {
@@ -5990,7 +5920,6 @@ export namespace Prisma {
     slotDate?: DateTimeFilter<"Slot"> | Date | string
     slotTime?: StringFilter<"Slot"> | string
     capacity?: IntFilter<"Slot"> | number
-    booked?: IntFilter<"Slot"> | number
     experience?: XOR<ExperienceScalarRelationFilter, ExperienceWhereInput>
     bookings?: BookingListRelationFilter
   }
@@ -6001,7 +5930,6 @@ export namespace Prisma {
     slotDate?: SortOrder
     slotTime?: SortOrder
     capacity?: SortOrder
-    booked?: SortOrder
     experience?: ExperienceOrderByWithRelationInput
     bookings?: BookingOrderByRelationAggregateInput
   }
@@ -6016,7 +5944,6 @@ export namespace Prisma {
     slotDate?: DateTimeFilter<"Slot"> | Date | string
     slotTime?: StringFilter<"Slot"> | string
     capacity?: IntFilter<"Slot"> | number
-    booked?: IntFilter<"Slot"> | number
     experience?: XOR<ExperienceScalarRelationFilter, ExperienceWhereInput>
     bookings?: BookingListRelationFilter
   }, "id" | "experienceId_slotDate_slotTime">
@@ -6027,7 +5954,6 @@ export namespace Prisma {
     slotDate?: SortOrder
     slotTime?: SortOrder
     capacity?: SortOrder
-    booked?: SortOrder
     _count?: SlotCountOrderByAggregateInput
     _avg?: SlotAvgOrderByAggregateInput
     _max?: SlotMaxOrderByAggregateInput
@@ -6044,7 +5970,6 @@ export namespace Prisma {
     slotDate?: DateTimeWithAggregatesFilter<"Slot"> | Date | string
     slotTime?: StringWithAggregatesFilter<"Slot"> | string
     capacity?: IntWithAggregatesFilter<"Slot"> | number
-    booked?: IntWithAggregatesFilter<"Slot"> | number
   }
 
   export type BookingWhereInput = {
@@ -6052,7 +5977,6 @@ export namespace Prisma {
     OR?: BookingWhereInput[]
     NOT?: BookingWhereInput | BookingWhereInput[]
     id?: IntFilter<"Booking"> | number
-    experienceId?: IntFilter<"Booking"> | number
     slotId?: IntFilter<"Booking"> | number
     fullName?: StringFilter<"Booking"> | string
     email?: StringFilter<"Booking"> | string
@@ -6061,14 +5985,13 @@ export namespace Prisma {
     taxesCents?: IntFilter<"Booking"> | number
     totalCents?: IntFilter<"Booking"> | number
     promoCode?: StringNullableFilter<"Booking"> | string | null
+    refId?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
-    experience?: XOR<ExperienceScalarRelationFilter, ExperienceWhereInput>
     slot?: XOR<SlotScalarRelationFilter, SlotWhereInput>
   }
 
   export type BookingOrderByWithRelationInput = {
     id?: SortOrder
-    experienceId?: SortOrder
     slotId?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
@@ -6077,8 +6000,8 @@ export namespace Prisma {
     taxesCents?: SortOrder
     totalCents?: SortOrder
     promoCode?: SortOrderInput | SortOrder
+    refId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
-    experience?: ExperienceOrderByWithRelationInput
     slot?: SlotOrderByWithRelationInput
   }
 
@@ -6087,7 +6010,6 @@ export namespace Prisma {
     AND?: BookingWhereInput | BookingWhereInput[]
     OR?: BookingWhereInput[]
     NOT?: BookingWhereInput | BookingWhereInput[]
-    experienceId?: IntFilter<"Booking"> | number
     slotId?: IntFilter<"Booking"> | number
     fullName?: StringFilter<"Booking"> | string
     email?: StringFilter<"Booking"> | string
@@ -6096,14 +6018,13 @@ export namespace Prisma {
     taxesCents?: IntFilter<"Booking"> | number
     totalCents?: IntFilter<"Booking"> | number
     promoCode?: StringNullableFilter<"Booking"> | string | null
+    refId?: StringNullableFilter<"Booking"> | string | null
     createdAt?: DateTimeFilter<"Booking"> | Date | string
-    experience?: XOR<ExperienceScalarRelationFilter, ExperienceWhereInput>
     slot?: XOR<SlotScalarRelationFilter, SlotWhereInput>
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
     id?: SortOrder
-    experienceId?: SortOrder
     slotId?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
@@ -6112,6 +6033,7 @@ export namespace Prisma {
     taxesCents?: SortOrder
     totalCents?: SortOrder
     promoCode?: SortOrderInput | SortOrder
+    refId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: BookingCountOrderByAggregateInput
     _avg?: BookingAvgOrderByAggregateInput
@@ -6125,7 +6047,6 @@ export namespace Prisma {
     OR?: BookingScalarWhereWithAggregatesInput[]
     NOT?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Booking"> | number
-    experienceId?: IntWithAggregatesFilter<"Booking"> | number
     slotId?: IntWithAggregatesFilter<"Booking"> | number
     fullName?: StringWithAggregatesFilter<"Booking"> | string
     email?: StringWithAggregatesFilter<"Booking"> | string
@@ -6134,6 +6055,7 @@ export namespace Prisma {
     taxesCents?: IntWithAggregatesFilter<"Booking"> | number
     totalCents?: IntWithAggregatesFilter<"Booking"> | number
     promoCode?: StringNullableWithAggregatesFilter<"Booking"> | string | null
+    refId?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
   }
 
@@ -6195,7 +6117,6 @@ export namespace Prisma {
     location?: string | null
     createdAt?: Date | string
     slots?: SlotCreateNestedManyWithoutExperienceInput
-    bookings?: BookingCreateNestedManyWithoutExperienceInput
   }
 
   export type ExperienceUncheckedCreateInput = {
@@ -6208,7 +6129,6 @@ export namespace Prisma {
     location?: string | null
     createdAt?: Date | string
     slots?: SlotUncheckedCreateNestedManyWithoutExperienceInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutExperienceInput
   }
 
   export type ExperienceUpdateInput = {
@@ -6220,7 +6140,6 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     slots?: SlotUpdateManyWithoutExperienceNestedInput
-    bookings?: BookingUpdateManyWithoutExperienceNestedInput
   }
 
   export type ExperienceUncheckedUpdateInput = {
@@ -6233,7 +6152,6 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     slots?: SlotUncheckedUpdateManyWithoutExperienceNestedInput
-    bookings?: BookingUncheckedUpdateManyWithoutExperienceNestedInput
   }
 
   export type ExperienceCreateManyInput = {
@@ -6272,7 +6190,6 @@ export namespace Prisma {
     slotDate: Date | string
     slotTime: string
     capacity?: number
-    booked?: number
     experience: ExperienceCreateNestedOneWithoutSlotsInput
     bookings?: BookingCreateNestedManyWithoutSlotInput
   }
@@ -6283,7 +6200,6 @@ export namespace Prisma {
     slotDate: Date | string
     slotTime: string
     capacity?: number
-    booked?: number
     bookings?: BookingUncheckedCreateNestedManyWithoutSlotInput
   }
 
@@ -6291,7 +6207,6 @@ export namespace Prisma {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
     experience?: ExperienceUpdateOneRequiredWithoutSlotsNestedInput
     bookings?: BookingUpdateManyWithoutSlotNestedInput
   }
@@ -6302,7 +6217,6 @@ export namespace Prisma {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
     bookings?: BookingUncheckedUpdateManyWithoutSlotNestedInput
   }
 
@@ -6312,14 +6226,12 @@ export namespace Prisma {
     slotDate: Date | string
     slotTime: string
     capacity?: number
-    booked?: number
   }
 
   export type SlotUpdateManyMutationInput = {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
   }
 
   export type SlotUncheckedUpdateManyInput = {
@@ -6328,7 +6240,6 @@ export namespace Prisma {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
   }
 
   export type BookingCreateInput = {
@@ -6339,14 +6250,13 @@ export namespace Prisma {
     taxesCents: number
     totalCents: number
     promoCode?: string | null
+    refId?: string | null
     createdAt?: Date | string
-    experience: ExperienceCreateNestedOneWithoutBookingsInput
     slot: SlotCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateInput = {
     id?: number
-    experienceId: number
     slotId: number
     fullName: string
     email: string
@@ -6355,6 +6265,7 @@ export namespace Prisma {
     taxesCents: number
     totalCents: number
     promoCode?: string | null
+    refId?: string | null
     createdAt?: Date | string
   }
 
@@ -6366,14 +6277,13 @@ export namespace Prisma {
     taxesCents?: IntFieldUpdateOperationsInput | number
     totalCents?: IntFieldUpdateOperationsInput | number
     promoCode?: NullableStringFieldUpdateOperationsInput | string | null
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    experience?: ExperienceUpdateOneRequiredWithoutBookingsNestedInput
     slot?: SlotUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    experienceId?: IntFieldUpdateOperationsInput | number
     slotId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -6382,12 +6292,12 @@ export namespace Prisma {
     taxesCents?: IntFieldUpdateOperationsInput | number
     totalCents?: IntFieldUpdateOperationsInput | number
     promoCode?: NullableStringFieldUpdateOperationsInput | string | null
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingCreateManyInput = {
     id?: number
-    experienceId: number
     slotId: number
     fullName: string
     email: string
@@ -6396,6 +6306,7 @@ export namespace Prisma {
     taxesCents: number
     totalCents: number
     promoCode?: string | null
+    refId?: string | null
     createdAt?: Date | string
   }
 
@@ -6407,12 +6318,12 @@ export namespace Prisma {
     taxesCents?: IntFieldUpdateOperationsInput | number
     totalCents?: IntFieldUpdateOperationsInput | number
     promoCode?: NullableStringFieldUpdateOperationsInput | string | null
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    experienceId?: IntFieldUpdateOperationsInput | number
     slotId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -6421,6 +6332,7 @@ export namespace Prisma {
     taxesCents?: IntFieldUpdateOperationsInput | number
     totalCents?: IntFieldUpdateOperationsInput | number
     promoCode?: NullableStringFieldUpdateOperationsInput | string | null
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -6531,22 +6443,12 @@ export namespace Prisma {
     none?: SlotWhereInput
   }
 
-  export type BookingListRelationFilter = {
-    every?: BookingWhereInput
-    some?: BookingWhereInput
-    none?: BookingWhereInput
-  }
-
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type SlotOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type BookingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -6664,6 +6566,16 @@ export namespace Prisma {
     isNot?: ExperienceWhereInput
   }
 
+  export type BookingListRelationFilter = {
+    every?: BookingWhereInput
+    some?: BookingWhereInput
+    none?: BookingWhereInput
+  }
+
+  export type BookingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type SlotExperienceIdSlotDateSlotTimeCompoundUniqueInput = {
     experienceId: number
     slotDate: Date | string
@@ -6676,14 +6588,12 @@ export namespace Prisma {
     slotDate?: SortOrder
     slotTime?: SortOrder
     capacity?: SortOrder
-    booked?: SortOrder
   }
 
   export type SlotAvgOrderByAggregateInput = {
     id?: SortOrder
     experienceId?: SortOrder
     capacity?: SortOrder
-    booked?: SortOrder
   }
 
   export type SlotMaxOrderByAggregateInput = {
@@ -6692,7 +6602,6 @@ export namespace Prisma {
     slotDate?: SortOrder
     slotTime?: SortOrder
     capacity?: SortOrder
-    booked?: SortOrder
   }
 
   export type SlotMinOrderByAggregateInput = {
@@ -6701,14 +6610,12 @@ export namespace Prisma {
     slotDate?: SortOrder
     slotTime?: SortOrder
     capacity?: SortOrder
-    booked?: SortOrder
   }
 
   export type SlotSumOrderByAggregateInput = {
     id?: SortOrder
     experienceId?: SortOrder
     capacity?: SortOrder
-    booked?: SortOrder
   }
 
   export type SlotScalarRelationFilter = {
@@ -6718,7 +6625,6 @@ export namespace Prisma {
 
   export type BookingCountOrderByAggregateInput = {
     id?: SortOrder
-    experienceId?: SortOrder
     slotId?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
@@ -6727,12 +6633,12 @@ export namespace Prisma {
     taxesCents?: SortOrder
     totalCents?: SortOrder
     promoCode?: SortOrder
+    refId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type BookingAvgOrderByAggregateInput = {
     id?: SortOrder
-    experienceId?: SortOrder
     slotId?: SortOrder
     qty?: SortOrder
     subtotalCents?: SortOrder
@@ -6742,7 +6648,6 @@ export namespace Prisma {
 
   export type BookingMaxOrderByAggregateInput = {
     id?: SortOrder
-    experienceId?: SortOrder
     slotId?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
@@ -6751,12 +6656,12 @@ export namespace Prisma {
     taxesCents?: SortOrder
     totalCents?: SortOrder
     promoCode?: SortOrder
+    refId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type BookingMinOrderByAggregateInput = {
     id?: SortOrder
-    experienceId?: SortOrder
     slotId?: SortOrder
     fullName?: SortOrder
     email?: SortOrder
@@ -6765,12 +6670,12 @@ export namespace Prisma {
     taxesCents?: SortOrder
     totalCents?: SortOrder
     promoCode?: SortOrder
+    refId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type BookingSumOrderByAggregateInput = {
     id?: SortOrder
-    experienceId?: SortOrder
     slotId?: SortOrder
     qty?: SortOrder
     subtotalCents?: SortOrder
@@ -6827,25 +6732,11 @@ export namespace Prisma {
     connect?: SlotWhereUniqueInput | SlotWhereUniqueInput[]
   }
 
-  export type BookingCreateNestedManyWithoutExperienceInput = {
-    create?: XOR<BookingCreateWithoutExperienceInput, BookingUncheckedCreateWithoutExperienceInput> | BookingCreateWithoutExperienceInput[] | BookingUncheckedCreateWithoutExperienceInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutExperienceInput | BookingCreateOrConnectWithoutExperienceInput[]
-    createMany?: BookingCreateManyExperienceInputEnvelope
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-  }
-
   export type SlotUncheckedCreateNestedManyWithoutExperienceInput = {
     create?: XOR<SlotCreateWithoutExperienceInput, SlotUncheckedCreateWithoutExperienceInput> | SlotCreateWithoutExperienceInput[] | SlotUncheckedCreateWithoutExperienceInput[]
     connectOrCreate?: SlotCreateOrConnectWithoutExperienceInput | SlotCreateOrConnectWithoutExperienceInput[]
     createMany?: SlotCreateManyExperienceInputEnvelope
     connect?: SlotWhereUniqueInput | SlotWhereUniqueInput[]
-  }
-
-  export type BookingUncheckedCreateNestedManyWithoutExperienceInput = {
-    create?: XOR<BookingCreateWithoutExperienceInput, BookingUncheckedCreateWithoutExperienceInput> | BookingCreateWithoutExperienceInput[] | BookingUncheckedCreateWithoutExperienceInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutExperienceInput | BookingCreateOrConnectWithoutExperienceInput[]
-    createMany?: BookingCreateManyExperienceInputEnvelope
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -6882,20 +6773,6 @@ export namespace Prisma {
     deleteMany?: SlotScalarWhereInput | SlotScalarWhereInput[]
   }
 
-  export type BookingUpdateManyWithoutExperienceNestedInput = {
-    create?: XOR<BookingCreateWithoutExperienceInput, BookingUncheckedCreateWithoutExperienceInput> | BookingCreateWithoutExperienceInput[] | BookingUncheckedCreateWithoutExperienceInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutExperienceInput | BookingCreateOrConnectWithoutExperienceInput[]
-    upsert?: BookingUpsertWithWhereUniqueWithoutExperienceInput | BookingUpsertWithWhereUniqueWithoutExperienceInput[]
-    createMany?: BookingCreateManyExperienceInputEnvelope
-    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    update?: BookingUpdateWithWhereUniqueWithoutExperienceInput | BookingUpdateWithWhereUniqueWithoutExperienceInput[]
-    updateMany?: BookingUpdateManyWithWhereWithoutExperienceInput | BookingUpdateManyWithWhereWithoutExperienceInput[]
-    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
-  }
-
   export type SlotUncheckedUpdateManyWithoutExperienceNestedInput = {
     create?: XOR<SlotCreateWithoutExperienceInput, SlotUncheckedCreateWithoutExperienceInput> | SlotCreateWithoutExperienceInput[] | SlotUncheckedCreateWithoutExperienceInput[]
     connectOrCreate?: SlotCreateOrConnectWithoutExperienceInput | SlotCreateOrConnectWithoutExperienceInput[]
@@ -6908,20 +6785,6 @@ export namespace Prisma {
     update?: SlotUpdateWithWhereUniqueWithoutExperienceInput | SlotUpdateWithWhereUniqueWithoutExperienceInput[]
     updateMany?: SlotUpdateManyWithWhereWithoutExperienceInput | SlotUpdateManyWithWhereWithoutExperienceInput[]
     deleteMany?: SlotScalarWhereInput | SlotScalarWhereInput[]
-  }
-
-  export type BookingUncheckedUpdateManyWithoutExperienceNestedInput = {
-    create?: XOR<BookingCreateWithoutExperienceInput, BookingUncheckedCreateWithoutExperienceInput> | BookingCreateWithoutExperienceInput[] | BookingUncheckedCreateWithoutExperienceInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutExperienceInput | BookingCreateOrConnectWithoutExperienceInput[]
-    upsert?: BookingUpsertWithWhereUniqueWithoutExperienceInput | BookingUpsertWithWhereUniqueWithoutExperienceInput[]
-    createMany?: BookingCreateManyExperienceInputEnvelope
-    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    update?: BookingUpdateWithWhereUniqueWithoutExperienceInput | BookingUpdateWithWhereUniqueWithoutExperienceInput[]
-    updateMany?: BookingUpdateManyWithWhereWithoutExperienceInput | BookingUpdateManyWithWhereWithoutExperienceInput[]
-    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
   export type ExperienceCreateNestedOneWithoutSlotsInput = {
@@ -6980,24 +6843,10 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type ExperienceCreateNestedOneWithoutBookingsInput = {
-    create?: XOR<ExperienceCreateWithoutBookingsInput, ExperienceUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: ExperienceCreateOrConnectWithoutBookingsInput
-    connect?: ExperienceWhereUniqueInput
-  }
-
   export type SlotCreateNestedOneWithoutBookingsInput = {
     create?: XOR<SlotCreateWithoutBookingsInput, SlotUncheckedCreateWithoutBookingsInput>
     connectOrCreate?: SlotCreateOrConnectWithoutBookingsInput
     connect?: SlotWhereUniqueInput
-  }
-
-  export type ExperienceUpdateOneRequiredWithoutBookingsNestedInput = {
-    create?: XOR<ExperienceCreateWithoutBookingsInput, ExperienceUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: ExperienceCreateOrConnectWithoutBookingsInput
-    upsert?: ExperienceUpsertWithoutBookingsInput
-    connect?: ExperienceWhereUniqueInput
-    update?: XOR<XOR<ExperienceUpdateToOneWithWhereWithoutBookingsInput, ExperienceUpdateWithoutBookingsInput>, ExperienceUncheckedUpdateWithoutBookingsInput>
   }
 
   export type SlotUpdateOneRequiredWithoutBookingsNestedInput = {
@@ -7165,7 +7014,6 @@ export namespace Prisma {
     slotDate: Date | string
     slotTime: string
     capacity?: number
-    booked?: number
     bookings?: BookingCreateNestedManyWithoutSlotInput
   }
 
@@ -7174,7 +7022,6 @@ export namespace Prisma {
     slotDate: Date | string
     slotTime: string
     capacity?: number
-    booked?: number
     bookings?: BookingUncheckedCreateNestedManyWithoutSlotInput
   }
 
@@ -7185,41 +7032,6 @@ export namespace Prisma {
 
   export type SlotCreateManyExperienceInputEnvelope = {
     data: SlotCreateManyExperienceInput | SlotCreateManyExperienceInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type BookingCreateWithoutExperienceInput = {
-    fullName: string
-    email: string
-    qty: number
-    subtotalCents: number
-    taxesCents: number
-    totalCents: number
-    promoCode?: string | null
-    createdAt?: Date | string
-    slot: SlotCreateNestedOneWithoutBookingsInput
-  }
-
-  export type BookingUncheckedCreateWithoutExperienceInput = {
-    id?: number
-    slotId: number
-    fullName: string
-    email: string
-    qty: number
-    subtotalCents: number
-    taxesCents: number
-    totalCents: number
-    promoCode?: string | null
-    createdAt?: Date | string
-  }
-
-  export type BookingCreateOrConnectWithoutExperienceInput = {
-    where: BookingWhereUniqueInput
-    create: XOR<BookingCreateWithoutExperienceInput, BookingUncheckedCreateWithoutExperienceInput>
-  }
-
-  export type BookingCreateManyExperienceInputEnvelope = {
-    data: BookingCreateManyExperienceInput | BookingCreateManyExperienceInput[]
     skipDuplicates?: boolean
   }
 
@@ -7248,40 +7060,6 @@ export namespace Prisma {
     slotDate?: DateTimeFilter<"Slot"> | Date | string
     slotTime?: StringFilter<"Slot"> | string
     capacity?: IntFilter<"Slot"> | number
-    booked?: IntFilter<"Slot"> | number
-  }
-
-  export type BookingUpsertWithWhereUniqueWithoutExperienceInput = {
-    where: BookingWhereUniqueInput
-    update: XOR<BookingUpdateWithoutExperienceInput, BookingUncheckedUpdateWithoutExperienceInput>
-    create: XOR<BookingCreateWithoutExperienceInput, BookingUncheckedCreateWithoutExperienceInput>
-  }
-
-  export type BookingUpdateWithWhereUniqueWithoutExperienceInput = {
-    where: BookingWhereUniqueInput
-    data: XOR<BookingUpdateWithoutExperienceInput, BookingUncheckedUpdateWithoutExperienceInput>
-  }
-
-  export type BookingUpdateManyWithWhereWithoutExperienceInput = {
-    where: BookingScalarWhereInput
-    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutExperienceInput>
-  }
-
-  export type BookingScalarWhereInput = {
-    AND?: BookingScalarWhereInput | BookingScalarWhereInput[]
-    OR?: BookingScalarWhereInput[]
-    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
-    id?: IntFilter<"Booking"> | number
-    experienceId?: IntFilter<"Booking"> | number
-    slotId?: IntFilter<"Booking"> | number
-    fullName?: StringFilter<"Booking"> | string
-    email?: StringFilter<"Booking"> | string
-    qty?: IntFilter<"Booking"> | number
-    subtotalCents?: IntFilter<"Booking"> | number
-    taxesCents?: IntFilter<"Booking"> | number
-    totalCents?: IntFilter<"Booking"> | number
-    promoCode?: StringNullableFilter<"Booking"> | string | null
-    createdAt?: DateTimeFilter<"Booking"> | Date | string
   }
 
   export type ExperienceCreateWithoutSlotsInput = {
@@ -7292,7 +7070,6 @@ export namespace Prisma {
     imageUrl?: string | null
     location?: string | null
     createdAt?: Date | string
-    bookings?: BookingCreateNestedManyWithoutExperienceInput
   }
 
   export type ExperienceUncheckedCreateWithoutSlotsInput = {
@@ -7304,7 +7081,6 @@ export namespace Prisma {
     imageUrl?: string | null
     location?: string | null
     createdAt?: Date | string
-    bookings?: BookingUncheckedCreateNestedManyWithoutExperienceInput
   }
 
   export type ExperienceCreateOrConnectWithoutSlotsInput = {
@@ -7320,13 +7096,12 @@ export namespace Prisma {
     taxesCents: number
     totalCents: number
     promoCode?: string | null
+    refId?: string | null
     createdAt?: Date | string
-    experience: ExperienceCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutSlotInput = {
     id?: number
-    experienceId: number
     fullName: string
     email: string
     qty: number
@@ -7334,6 +7109,7 @@ export namespace Prisma {
     taxesCents: number
     totalCents: number
     promoCode?: string | null
+    refId?: string | null
     createdAt?: Date | string
   }
 
@@ -7366,7 +7142,6 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    bookings?: BookingUpdateManyWithoutExperienceNestedInput
   }
 
   export type ExperienceUncheckedUpdateWithoutSlotsInput = {
@@ -7378,7 +7153,6 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    bookings?: BookingUncheckedUpdateManyWithoutExperienceNestedInput
   }
 
   export type BookingUpsertWithWhereUniqueWithoutSlotInput = {
@@ -7397,39 +7171,27 @@ export namespace Prisma {
     data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutSlotInput>
   }
 
-  export type ExperienceCreateWithoutBookingsInput = {
-    title: string
-    slug: string
-    description?: string | null
-    priceCents: number
-    imageUrl?: string | null
-    location?: string | null
-    createdAt?: Date | string
-    slots?: SlotCreateNestedManyWithoutExperienceInput
-  }
-
-  export type ExperienceUncheckedCreateWithoutBookingsInput = {
-    id?: number
-    title: string
-    slug: string
-    description?: string | null
-    priceCents: number
-    imageUrl?: string | null
-    location?: string | null
-    createdAt?: Date | string
-    slots?: SlotUncheckedCreateNestedManyWithoutExperienceInput
-  }
-
-  export type ExperienceCreateOrConnectWithoutBookingsInput = {
-    where: ExperienceWhereUniqueInput
-    create: XOR<ExperienceCreateWithoutBookingsInput, ExperienceUncheckedCreateWithoutBookingsInput>
+  export type BookingScalarWhereInput = {
+    AND?: BookingScalarWhereInput | BookingScalarWhereInput[]
+    OR?: BookingScalarWhereInput[]
+    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
+    id?: IntFilter<"Booking"> | number
+    slotId?: IntFilter<"Booking"> | number
+    fullName?: StringFilter<"Booking"> | string
+    email?: StringFilter<"Booking"> | string
+    qty?: IntFilter<"Booking"> | number
+    subtotalCents?: IntFilter<"Booking"> | number
+    taxesCents?: IntFilter<"Booking"> | number
+    totalCents?: IntFilter<"Booking"> | number
+    promoCode?: StringNullableFilter<"Booking"> | string | null
+    refId?: StringNullableFilter<"Booking"> | string | null
+    createdAt?: DateTimeFilter<"Booking"> | Date | string
   }
 
   export type SlotCreateWithoutBookingsInput = {
     slotDate: Date | string
     slotTime: string
     capacity?: number
-    booked?: number
     experience: ExperienceCreateNestedOneWithoutSlotsInput
   }
 
@@ -7439,46 +7201,11 @@ export namespace Prisma {
     slotDate: Date | string
     slotTime: string
     capacity?: number
-    booked?: number
   }
 
   export type SlotCreateOrConnectWithoutBookingsInput = {
     where: SlotWhereUniqueInput
     create: XOR<SlotCreateWithoutBookingsInput, SlotUncheckedCreateWithoutBookingsInput>
-  }
-
-  export type ExperienceUpsertWithoutBookingsInput = {
-    update: XOR<ExperienceUpdateWithoutBookingsInput, ExperienceUncheckedUpdateWithoutBookingsInput>
-    create: XOR<ExperienceCreateWithoutBookingsInput, ExperienceUncheckedCreateWithoutBookingsInput>
-    where?: ExperienceWhereInput
-  }
-
-  export type ExperienceUpdateToOneWithWhereWithoutBookingsInput = {
-    where?: ExperienceWhereInput
-    data: XOR<ExperienceUpdateWithoutBookingsInput, ExperienceUncheckedUpdateWithoutBookingsInput>
-  }
-
-  export type ExperienceUpdateWithoutBookingsInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    priceCents?: IntFieldUpdateOperationsInput | number
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    slots?: SlotUpdateManyWithoutExperienceNestedInput
-  }
-
-  export type ExperienceUncheckedUpdateWithoutBookingsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    priceCents?: IntFieldUpdateOperationsInput | number
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    slots?: SlotUncheckedUpdateManyWithoutExperienceNestedInput
   }
 
   export type SlotUpsertWithoutBookingsInput = {
@@ -7496,7 +7223,6 @@ export namespace Prisma {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
     experience?: ExperienceUpdateOneRequiredWithoutSlotsNestedInput
   }
 
@@ -7506,7 +7232,6 @@ export namespace Prisma {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
   }
 
   export type SlotCreateManyExperienceInput = {
@@ -7514,27 +7239,12 @@ export namespace Prisma {
     slotDate: Date | string
     slotTime: string
     capacity?: number
-    booked?: number
-  }
-
-  export type BookingCreateManyExperienceInput = {
-    id?: number
-    slotId: number
-    fullName: string
-    email: string
-    qty: number
-    subtotalCents: number
-    taxesCents: number
-    totalCents: number
-    promoCode?: string | null
-    createdAt?: Date | string
   }
 
   export type SlotUpdateWithoutExperienceInput = {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
     bookings?: BookingUpdateManyWithoutSlotNestedInput
   }
 
@@ -7543,7 +7253,6 @@ export namespace Prisma {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
     bookings?: BookingUncheckedUpdateManyWithoutSlotNestedInput
   }
 
@@ -7552,50 +7261,10 @@ export namespace Prisma {
     slotDate?: DateTimeFieldUpdateOperationsInput | Date | string
     slotTime?: StringFieldUpdateOperationsInput | string
     capacity?: IntFieldUpdateOperationsInput | number
-    booked?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type BookingUpdateWithoutExperienceInput = {
-    fullName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    qty?: IntFieldUpdateOperationsInput | number
-    subtotalCents?: IntFieldUpdateOperationsInput | number
-    taxesCents?: IntFieldUpdateOperationsInput | number
-    totalCents?: IntFieldUpdateOperationsInput | number
-    promoCode?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    slot?: SlotUpdateOneRequiredWithoutBookingsNestedInput
-  }
-
-  export type BookingUncheckedUpdateWithoutExperienceInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    slotId?: IntFieldUpdateOperationsInput | number
-    fullName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    qty?: IntFieldUpdateOperationsInput | number
-    subtotalCents?: IntFieldUpdateOperationsInput | number
-    taxesCents?: IntFieldUpdateOperationsInput | number
-    totalCents?: IntFieldUpdateOperationsInput | number
-    promoCode?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BookingUncheckedUpdateManyWithoutExperienceInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    slotId?: IntFieldUpdateOperationsInput | number
-    fullName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    qty?: IntFieldUpdateOperationsInput | number
-    subtotalCents?: IntFieldUpdateOperationsInput | number
-    taxesCents?: IntFieldUpdateOperationsInput | number
-    totalCents?: IntFieldUpdateOperationsInput | number
-    promoCode?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingCreateManySlotInput = {
     id?: number
-    experienceId: number
     fullName: string
     email: string
     qty: number
@@ -7603,6 +7272,7 @@ export namespace Prisma {
     taxesCents: number
     totalCents: number
     promoCode?: string | null
+    refId?: string | null
     createdAt?: Date | string
   }
 
@@ -7614,13 +7284,12 @@ export namespace Prisma {
     taxesCents?: IntFieldUpdateOperationsInput | number
     totalCents?: IntFieldUpdateOperationsInput | number
     promoCode?: NullableStringFieldUpdateOperationsInput | string | null
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    experience?: ExperienceUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutSlotInput = {
     id?: IntFieldUpdateOperationsInput | number
-    experienceId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     qty?: IntFieldUpdateOperationsInput | number
@@ -7628,12 +7297,12 @@ export namespace Prisma {
     taxesCents?: IntFieldUpdateOperationsInput | number
     totalCents?: IntFieldUpdateOperationsInput | number
     promoCode?: NullableStringFieldUpdateOperationsInput | string | null
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingUncheckedUpdateManyWithoutSlotInput = {
     id?: IntFieldUpdateOperationsInput | number
-    experienceId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     qty?: IntFieldUpdateOperationsInput | number
@@ -7641,6 +7310,7 @@ export namespace Prisma {
     taxesCents?: IntFieldUpdateOperationsInput | number
     totalCents?: IntFieldUpdateOperationsInput | number
     promoCode?: NullableStringFieldUpdateOperationsInput | string | null
+    refId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

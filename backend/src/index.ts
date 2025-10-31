@@ -1,9 +1,17 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import prisma from "./db/prisma";
-import { PrismaClient } from "@prisma/client";
+import {  Prisma } from "@prisma/client";
+
+type Booking = {
+    qty : number
+  }
+
+  type Slot = {
+    bookings : Booking []
+  }
 
 dotenv.config();
 const app = express();
@@ -16,20 +24,20 @@ const PORT = process.env.PORT || 4000;
  * GET /experiences
  * Returns list with basic fields
  */
-app.get("/experiences", async (req, res) => {
-  const { search } = req.query;
-  let where = {};
+app.get("/experiences", async (req: Request, res: Response) => {
+  const { search } = req.query as { search?: string };
+  let where : Prisma.ExperienceWhereInput | undefined;
   if (typeof search === "string" && search.trim() !== "") {
     where = {
       title: {
         contains: search,
-        mode: "insensitive"
-      }
+        mode: "insensitive",
+      },
     };
   }
   const exps = await prisma.experience.findMany({
-    where,
-    orderBy: { id: "asc" }
+    ...(where ? { where } : {}),
+    orderBy: { id: "asc" },
   });
   res.json(exps);
 });
@@ -38,25 +46,37 @@ app.get("/experiences", async (req, res) => {
  * GET /experiences/:id
  * Returns experience and available slots (future)
  */
-app.get("/experiences/:id", async (req, res) => {
+app.get("/experiences/:id", async (req: Request, res: Response) => {
   const id = Number(req.params.id);
   const experience = await prisma.experience.findUnique({ where: { id } });
-  if (!experience) return res.status(404).json({ error: "Experience not found" });
+  if (!experience)
+    return res.status(404).json({ error: "Experience not found" });
 
   const slots = await prisma.slot.findMany({
     where: { experienceId: id, slotDate: { gte: new Date() } },
-    select: { id: true, slotDate: true, slotTime: true, capacity: true, booked: true },
-    orderBy: [{ slotDate: "asc" }, { slotTime: "asc" }]
+    include: { bookings: true },
+    orderBy: [{ slotDate: "asc" }, { slotTime: "asc" }],
   });
 
-  res.json({ experience, slots });
+  
+
+  const enrichedSlots = slots.map((slot: Slot  ) => {
+    const totalBookingsCount =
+      slot.bookings?.reduce((sum : number, b: Booking ) => sum + b.qty, 0) || 0;
+    return {
+      ...slot,
+      booked: totalBookingsCount,
+    };
+  });
+
+  res.json({ experience, slots: enrichedSlots });
 });
 
 /**
  * POST /promo/validate
  */
-app.post("/promo/validate", async (req, res) => {
-  const { code } = req.body;
+app.post("/promo/validate", async (req: Request, res: Response) => {
+  const { code } = req.body as { code?: string };
   if (!code) return res.status(400).json({ error: "code required" });
 
   const promo = await prisma.promo.findUnique({ where: { code } });
@@ -65,101 +85,137 @@ app.post("/promo/validate", async (req, res) => {
   res.json({ valid: true, promo });
 });
 
-/**
- * POST /bookings
- * Prevent double booking via conditional UPDATE (atomic)
- *
- * Flow:
- * 1) Try to increment booked count with SQL that ensures booked + qty <= capacity
- * 2) If update affects 1 row -> success: create booking record in same transaction
- * 3) If update affects 0 rows -> insufficient seats -> fail
- */
-app.post("/bookings", async (req, res) => {
-  const { full_name, email, experience_id, slot_id, qty, promo_code } = req.body;
+app.post("/bookings", async (req: Request, res: Response) => {
+  const { name, email, experienceId, slotId, qty, promoCode } = req.body as {
+    name?: string;
+    email?: string;
+    experienceId?: number | string;
+    slotId?: number | string;
+    qty?: number | string;
+    promoCode?: string;
+  };
 
-  if (!full_name || !email || !experience_id || !slot_id || !qty) {
+  if (!promoCode || !name || !email || !slotId || !qty) {
     return res.status(400).json({ error: "missing fields" });
   }
 
   const qtyInt = Number(qty);
   if (qtyInt <= 0) return res.status(400).json({ error: "qty must be > 0" });
-
   try {
     // Use interactive transaction
-    interface Promo {
-      code: string;
-      active: boolean;
-      type: "percent" | "flat";
-      value: number;
-    }
-
-    interface Experience {
-      id: number;
-      priceCents: number;
-    }
-
     interface BookingResult {
       bookingId: number;
       totalCents: number;
+      refId:string;
     }
 
-    const result: BookingResult = await prisma.$transaction(async (tx: PrismaClient): Promise<BookingResult> => {
-      // 1) Conditional update using raw SQL so it's done atomically in DB:
-      //    update only if there is space. The query returns number of rows updated.
-      const updateResult: number = await tx.$executeRawUnsafe(
-        `UPDATE "Slot" SET booked = booked + $1 WHERE id = $2 AND (capacity - booked) >= $1`,
-        qtyInt,
-        slot_id
-      );
-      // Note: $executeRawUnsafe returns number of affected rows for UPDATE in node-postgres.
+    const result: BookingResult = await prisma.$transaction(
+      async (tx: Prisma.TransactionClient): Promise<BookingResult> => {
+        // 2) Compute price
+        const sl = await tx.slot.findUnique({
+          where: { id: Number(slotId) },
+          include: {
+            experience: true,
+          },
+        });
 
-      if (Number(updateResult) === 0) {
-        // No seats available
-        throw { code: "NO_SEATS" };
-      }
+        const exp = sl?.experience;
 
-      // 2) Compute price
-      const exp: Experience | null = await tx.experience.findUnique({ where: { id: Number(experience_id) } });
-      if (!exp) throw { code: "NO_EXP" };
+        if (!exp) throw { code: "NO_EXP" };
 
-      let subtotal: number = exp.priceCents * qtyInt;
-      let discount: number = 0;
+        const totalBookings = await tx.booking.findMany({
+          where: {
+            slotId: Number(slotId),
+          },
+        });
 
-      if (promo_code) {
-        const promo: Promo | null = await tx.promo.findUnique({ where: { code: promo_code } });
-        if (promo && promo.active) {
-          if (promo.type === "percent") discount = Math.floor(subtotal * (promo.value / 100));
-          else if (promo.type === "flat") discount = promo.value;
-          subtotal = Math.max(0, subtotal - discount);
+        let totalBookingsCount : number = 0;
+
+        totalBookings.forEach((element :  {qty: number}) => {
+          totalBookingsCount += element.qty;
+        });
+        if (
+          Number(totalBookingsCount) + Number(qtyInt) >
+          Number(sl?.capacity)
+        ) {
+          // No seats available
+          throw { code: "NO_SEATS" };
         }
-      }
 
-      const taxes: number = Math.round(subtotal * 0.06); // example 6%
-      const total: number = subtotal + taxes;
+        let subtotal: number = exp.priceCents * qtyInt;
+        let discount: number = 0;
 
-      const booking = await tx.booking.create({
-        data: {
-          experienceId: Number(experience_id),
-          slotId: Number(slot_id),
-          fullName: full_name,
-          email,
-          qty: qtyInt,
-          subtotalCents: subtotal,
-          taxesCents: taxes,
-          totalCents: total,
-          promoCode: promo_code ?? null
+        if (promoCode) {
+          const promo = await tx.promo.findUnique({
+            where: { code: promoCode },
+          });
+          if (promo && promo.active) {
+            if (promo.type === "percent")
+              discount = Math.floor(subtotal * (promo.value / 100));
+            else if (promo.type === "flat") discount = promo.value;
+            subtotal = Math.max(0, subtotal - discount);
+          }
         }
-      });
 
-      return { bookingId: booking.id, totalCents: total };
-    }, { maxWait: 30000 }); // optional timeout
+        const taxes: number = Math.round(subtotal * 0.06); // example 6%
+        const total: number = subtotal + taxes;
+        const refId = Math.random().toString(36).substring(2, 8).toUpperCase();
 
-    res.json({ success: true, bookingId: result.bookingId, totalCents: result.totalCents });
+        const booking = await tx.booking.create({
+          data: {
+            slotId: Number(slotId),
+            fullName: name,
+            email,
+            qty: qtyInt,
+            subtotalCents: subtotal,
+            taxesCents: taxes,
+            totalCents: total,
+            promoCode: promoCode ?? null,
+            refId: refId 
+          },
+        });
+
+        return { bookingId: booking.id, totalCents: total , refId : refId};
+      },
+      { maxWait: 30000 }
+    ); // optional timeout
+
+    res.json({
+      success: true,
+      bookingId: result.bookingId,
+      totalCents: result.totalCents,
+      refId:result.refId
+    });
   } catch (err: any) {
-    if (err && err.code === "NO_SEATS") return res.status(409).json({ error: "Not enough seats" });
-    if (err && err.code === "NO_EXP") return res.status(404).json({ error: "Experience not found" });
+    if (err && err.code === "NO_SEATS")
+      return res.status(409).json({ error: "Not enough seats" });
+    if (err && err.code === "NO_EXP")
+      return res.status(404).json({ error: "Experience not found" });
     console.error(err);
     return res.status(500).json({ error: "server error" });
+  }
+});
+
+/**
+ * GET /bookings/:id
+ * Returns booking details by booking id
+ */
+app.get("/bookings/:id", async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: "Invalid booking id" });
+  try {
+    const booking = await prisma.booking.findUnique({
+      where: { id },
+      include: {
+        slot: {
+          include: { experience: true },
+        },
+      },
+    });
+    if (!booking) return res.status(404).json({ error: "Booking not found" });
+    res.json(booking);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
   }
 });
 

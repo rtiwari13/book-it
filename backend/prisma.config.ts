@@ -7,6 +7,6 @@ export default defineConfig({
   },
   engine: "classic",
   datasource: {
-    url: "postgresql://postgres:meaw_meaw@localhost:5433/bookit",
+    url: env("DATABASE_URL"),
   },
 });

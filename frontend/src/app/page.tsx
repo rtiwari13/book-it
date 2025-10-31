@@ -2,14 +2,13 @@
 import { useEffect, useState } from "react";
 import { getExperiences } from "@/lib/api";
 import ExperienceCard from "@/components/ExperienceCard";
-import Layout from "@/components/Layout";
-import { useSearchParams } from "next/navigation";
+import Nav from "../components/Nav";
 
 
 export default function HomePage() {
   const [experiences, setExperiences] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const searchParams = useSearchParams();
+  const [searchTerm , setSearchTerm] = useState("")
 
   const fetchExperiences = async (searchTerm?: string) => {
     setLoading(true);
@@ -22,20 +21,33 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    const s = searchParams?.get("search") ?? undefined;
-    fetchExperiences(s);
+    fetchExperiences(searchTerm);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [searchTerm]);
 
   return (
-    <Layout>
-      {/* Search moved to header */}
-      <h2 className="text-2xl font-bold mb-4">Available Experiences</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+ 
+   <div className="min-h-screen flex flex-col">
+        <Nav 
+        setSearchTerm={setSearchTerm}
+         />
+        <main className="px-[124px] mt-[60px] min-h-screen">
+
+ <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
         {experiences.map((exp: any) => (
           <ExperienceCard key={exp.id} exp={exp} />
         ))}
+
       </div>
-    </Layout>
+
+        </main>
+        <footer className="text-center text-sm text-gray-500 p-4">
+          © 2025 MyExperiences — All rights reserved
+        </footer>
+      </div>
+     
+     
+     
+    
   );
 }

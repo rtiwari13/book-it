@@ -1,3 +1,9 @@
+// Fetch booking details by bookingId (ref)
+export async function getBooking(bookingId: string) {
+  const res = await fetch(`${API_BASE}/bookings/${bookingId}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch booking");
+  return res.json();
+}
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:4000";
 
 

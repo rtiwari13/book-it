@@ -136,13 +136,11 @@ exports.Prisma.SlotScalarFieldEnum = {
   experienceId: 'experienceId',
   slotDate: 'slotDate',
   slotTime: 'slotTime',
-  capacity: 'capacity',
-  booked: 'booked'
+  capacity: 'capacity'
 };
 
 exports.Prisma.BookingScalarFieldEnum = {
   id: 'id',
-  experienceId: 'experienceId',
   slotId: 'slotId',
   fullName: 'fullName',
   email: 'email',
@@ -151,6 +149,7 @@ exports.Prisma.BookingScalarFieldEnum = {
   taxesCents: 'taxesCents',
   totalCents: 'totalCents',
   promoCode: 'promoCode',
+  refId: 'refId',
   createdAt: 'createdAt'
 };
 
