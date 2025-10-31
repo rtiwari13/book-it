@@ -41,7 +41,7 @@ To get a local copy up and running, follow these simple steps.
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/rtiwari13/bookit
+   git clone https://github.com/rtiwari13/book-it
    cd bookit
    ```
 
